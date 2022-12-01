@@ -1,0 +1,4 @@
+typeBD=MySql
+Url=jdbc:mysql://localhost:3306/java
+login=root
+pwd=
