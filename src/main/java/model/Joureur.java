@@ -7,6 +7,7 @@ public class Joureur {
     private String lastName;
     private Double score;
 
+    public Joureur(){};
 
     public Joureur(String id, String firstName, String lastName, Double score) {
         this.id = id;

@@ -1,5 +1,6 @@
 package controller;
 
+import DAOJoueur.JoueurDAO;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -29,6 +30,7 @@ public class JeuController {
     ArrayList<Joureur> mockJoureurs = new ArrayList<>();
     ArrayList<Joureur> mockJoureursMoved = new ArrayList<>();
 
+    JoueurDAO joueurDAO;
 
     Scene scene;
     MenuBar menuBar;
@@ -42,12 +44,20 @@ public class JeuController {
 
 
     public JeuController() throws IOException {
+        joueurDAO = new JoueurDAO();
+
         menuBar = new MenuBar();
         borderPane = new BorderPane();
         jeuUI = new JeuUI();
         listeJoureursUI = new ListeJoureursUI();
         createMenu();
         UtilitairesBD.seConnecter("src\\main\\java\\model\\DBParameters");
+
+
+       // joueurDAO.insert(new Joureur("002","Fakhri","Kchaou",5.5));
+
+
+
     }
 
 
@@ -79,15 +89,14 @@ public class JeuController {
         /***************** add options menu to MenuBar ***************************/
 
         menuBar.getMenus().addAll(gestionJeuMenu,gestionPartie, statistique, gestionprofil, help);
-        var userInfoLeft = jeuUI.createUserInfoLeft();
-        var userInfoRight = jeuUI.createUserInfoLeft();
+        var tt =((Joureur) joueurDAO.getById("002"));
+        var userInfoLeft = jeuUI.createUserInfoLeft(tt);
+        var userInfoRight = jeuUI.createUserInfoRight((Joureur) joueurDAO.getById("002"));
 
         borderPane.setTop(menuBar);
 
 
-        mockJoureurs.add(new Joureur("001","Aymen","Salem", 5.0));
-        mockJoureurs.add(new Joureur("002","Ahlem","Ali", 8.0));
-        mockJoureurs.add(new Joureur("003","Amin","Ali", 2.0));
+
 
         VBox actionBar = listeJoureursUI.createActionBar();
 
@@ -109,7 +118,7 @@ public class JeuController {
         });
 
         listeJoueurMenuItem.setOnAction(e->{
-            borderPane.setLeft(listeJoureursUI.createTableViewLeft(mockJoureurs));
+            borderPane.setLeft(listeJoureursUI.createTableViewLeft((ArrayList<Joureur>)joueurDAO.getAll()));
             borderPane.setRight(listeJoureursUI.createTableViewRight(mockJoureursMoved));
             borderPane.setCenter(actionBar);
             BorderPane.setMargin(actionBar, insets);

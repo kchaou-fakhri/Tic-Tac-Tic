@@ -1,28 +1,41 @@
 package view;
 
-import javafx.application.Application;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
+import model.Joureur;
 
 public class JeuUI  {
 
     GridPane gridPane = new GridPane();
 
 
-    public VBox createUserInfoLeft(){
+    public VBox createUserInfoLeft(Joureur joureur){
         VBox vBox = new VBox(10);
 
 
         Label infoLabel = new Label("Information");
-        Label firstNameLabel = new Label("Nom : Mahdi");
-        Label lastNameLabel  = new Label("Prenom :");
-        Label scoreLabel     = new Label("Score : ");
+        Label firstNameLabel = new Label("Nom : "+joureur.getFirstName());
+        Label lastNameLabel  = new Label("Prenom : "+joureur.getLastName());
+        Label scoreLabel     = new Label("Score : "+joureur.getScore());
         Label colorLabel     = new Label("Comflowerblue");
         colorLabel.setTextFill(Color.web("#0101fe"));
+
+        vBox.getChildren().addAll(infoLabel, firstNameLabel, lastNameLabel, scoreLabel, colorLabel);
+        return vBox;
+    }
+    public VBox createUserInfoRight(Joureur joureur){
+        VBox vBox = new VBox(10);
+
+
+        Label infoLabel = new Label("Information");
+        Label firstNameLabel = new Label("Nom : "+joureur.getFirstName());
+        Label lastNameLabel  = new Label("Prenom : "+joureur.getLastName());
+        Label scoreLabel     = new Label("Score : "+joureur.getScore());
+        Label colorLabel     = new Label("Red");
+        colorLabel.setTextFill(Color.web("#fd1111"));
 
         vBox.getChildren().addAll(infoLabel, firstNameLabel, lastNameLabel, scoreLabel, colorLabel);
         return vBox;
