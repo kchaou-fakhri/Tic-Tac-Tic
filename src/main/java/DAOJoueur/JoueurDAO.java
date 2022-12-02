@@ -14,8 +14,7 @@ public class JoueurDAO implements IDAO {
 
     Connection cn;
     public JoueurDAO(){
-        cn = UtilitairesBD.seConnecter("");
-    }
+        UtilitairesBD.seConnecter("src\\main\\java\\model\\DBParameters");    }
 
     @Override
     public Boolean insert(Object joureur) {

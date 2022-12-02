@@ -51,7 +51,7 @@ public class JeuController {
         jeuUI = new JeuUI();
         listeJoureursUI = new ListeJoureursUI();
         createMenu();
-        UtilitairesBD.seConnecter("src\\main\\java\\model\\DBParameters");
+
 
 
        // joueurDAO.insert(new Joureur("002","Fakhri","Kchaou",5.5));
