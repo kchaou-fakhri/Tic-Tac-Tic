@@ -115,9 +115,14 @@ public class JeuController {
 
 
         lancerJeuMenuItem.setOnAction(e -> {
+            borderPane.setCenter(null);
+            borderPane.setLeft(null);
+            borderPane.setRight(null);
+
 
             borderPane.setCenter(jeuUI.createJeu());
             borderPane.setLeft(userInfoLeft);
+
             borderPane.setRight(userInfoRight);
 
             BorderPane.setMargin(userInfoRight, insets);
@@ -126,6 +131,9 @@ public class JeuController {
         });
 
         listeJoueurMenuItem.setOnAction(e->{
+            borderPane.setCenter(null);
+            borderPane.setLeft(null);
+            borderPane.setRight(null);
             borderPane.setLeft(listeJoureursUI.createTableViewLeft((ArrayList<Joueur>)joueurDAO.getAll()));
             borderPane.setRight(listeJoureursUI.createTableViewRight(mockJoureursMoved));
             borderPane.setCenter(actionBar);
@@ -138,7 +146,9 @@ public class JeuController {
 
         liste_joueur_avec_detail.setOnAction(e->{
 
-
+            borderPane.setCenter(null);
+            borderPane.setLeft(null);
+            borderPane.setRight(null);
             borderPane.setLeft(listJoueurDetail.getListJoueur((ArrayList<Joueur>)joueurDAO.getAll()));
             setListnerOfListDetailJoueurs();
          //   borderPane.setBottom(listJoueurDetail.getDeleteJoueur());
