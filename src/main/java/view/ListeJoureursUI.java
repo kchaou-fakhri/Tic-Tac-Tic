@@ -8,14 +8,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
-import model.Joureur;
+import model.Joueur;
 
 import java.util.ArrayList;
 
 public  class ListeJoureursUI {
 
-    ObservableList<Joureur> joureursMoved = FXCollections.observableArrayList();
-    ObservableList<Joureur> joureursBack = FXCollections.observableArrayList();
+    ObservableList<Joueur> joureursMoved = FXCollections.observableArrayList();
+    ObservableList<Joueur> joureursBack = FXCollections.observableArrayList();
 
     TableView tableViewLeft;
 
@@ -37,27 +37,27 @@ public  class ListeJoureursUI {
 
 
 
-    public  TableView<Joureur> createTableViewLeft(ArrayList<Joureur> mockJoureurs){
+    public  TableView<Joueur> createTableViewLeft(ArrayList<Joueur> mockJoueurs){
 
-        TableView.TableViewSelectionModel<Joureur> selectionModel = tableViewLeft.getSelectionModel();
+        TableView.TableViewSelectionModel<Joueur> selectionModel = tableViewLeft.getSelectionModel();
         selectionModel.setSelectionMode(SelectionMode.MULTIPLE);
 
 
-        TableColumn<Joureur, String> id = new TableColumn<>("ID");
+        TableColumn<Joueur, String> id = new TableColumn<>("ID");
                  id.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-        TableColumn<Joureur, String> firstName = new TableColumn<>("First Name");
+        TableColumn<Joueur, String> firstName = new TableColumn<>("First Name");
         firstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 
-        TableColumn<Joureur, String> lastName  = new TableColumn<>("Last Name");
+        TableColumn<Joueur, String> lastName  = new TableColumn<>("Last Name");
                  lastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 
-        TableColumn<Joureur, Double> score = new TableColumn<>("Score");
+        TableColumn<Joueur, Double> score = new TableColumn<>("Score");
                 score.setCellValueFactory(new PropertyValueFactory<>("score"));
 
         tableViewLeft.getColumns().addAll(id, firstName, lastName, score);
-        if (mockJoureurs != null){
-            ObservableList<Joureur> _mock = FXCollections.observableArrayList(mockJoureurs);
+        if (mockJoueurs != null){
+            ObservableList<Joueur> _mock = FXCollections.observableArrayList(mockJoueurs);
             tableViewLeft.setItems(_mock);
         }
 
@@ -65,27 +65,27 @@ public  class ListeJoureursUI {
         return tableViewLeft;
     }
 
-    public  TableView<Joureur> createTableViewRight(ArrayList<Joureur> mockJoureurs){
+    public  TableView<Joueur> createTableViewRight(ArrayList<Joueur> mockJoueurs){
 
-        TableView.TableViewSelectionModel<Joureur> selectionModel = tableViewRight.getSelectionModel();
+        TableView.TableViewSelectionModel<Joueur> selectionModel = tableViewRight.getSelectionModel();
         selectionModel.setSelectionMode(SelectionMode.MULTIPLE);
 
 
-        TableColumn<Joureur, String> id = new TableColumn<>("ID");
+        TableColumn<Joueur, String> id = new TableColumn<>("ID");
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-        TableColumn<Joureur, String> firstName = new TableColumn<>("First Name");
+        TableColumn<Joueur, String> firstName = new TableColumn<>("First Name");
         firstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 
-        TableColumn<Joureur, String> lastName  = new TableColumn<>("Last Name");
+        TableColumn<Joueur, String> lastName  = new TableColumn<>("Last Name");
         lastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 
-        TableColumn<Joureur, Double> score = new TableColumn<>("Score");
+        TableColumn<Joueur, Double> score = new TableColumn<>("Score");
         score.setCellValueFactory(new PropertyValueFactory<>("score"));
 
         tableViewRight.getColumns().addAll(id, firstName, lastName, score);
-        if (mockJoureurs != null){
-            ObservableList<Joureur> _mock = FXCollections.observableArrayList(mockJoureurs);
+        if (mockJoueurs != null){
+            ObservableList<Joueur> _mock = FXCollections.observableArrayList(mockJoueurs);
             tableViewRight.setItems(_mock);
         }
 
@@ -131,34 +131,34 @@ public  class ListeJoureursUI {
         return backAllButton;
     }
 
-    public void addTableViewRight(Joureur joureur) {
-        joureursMoved.add(joureur);
-        tableViewLeft.getItems().remove(joureur);
+    public void addTableViewRight(Joueur joueur) {
+        joureursMoved.add(joueur);
+        tableViewLeft.getItems().remove(joueur);
         tableViewRight.setItems(joureursMoved);
     }
 
-    public void addAllTableViewRight(ArrayList<Joureur> joureurs) {
-        joureursMoved.addAll(joureurs);
-        for (Joureur joureur: joureurs) {
-            tableViewLeft.getItems().remove(joureur);
+    public void addAllTableViewRight(ArrayList<Joueur> joueurs) {
+        joureursMoved.addAll(joueurs);
+        for (Joueur joueur : joueurs) {
+            tableViewLeft.getItems().remove(joueur);
         }
 
         tableViewRight.setItems(joureursMoved);
     }
 
-    public void addTableViewLeft(Joureur joureur) {
-        joureursBack.add(joureur);
-        tableViewRight.getItems().remove(joureur);
+    public void addTableViewLeft(Joueur joueur) {
+        joureursBack.add(joueur);
+        tableViewRight.getItems().remove(joueur);
         tableViewLeft.setItems(joureursBack);
 
         System.out.println(joureursBack.size() +"------"+ joureursMoved.size());
     }
 
-    public void addAllTableViewLeft(ArrayList<Joureur> joureurs) {
+    public void addAllTableViewLeft(ArrayList<Joueur> joueurs) {
 
-        joureursBack.addAll(joureurs);
-        for (Joureur joureur: joureurs) {
-            tableViewRight.getItems().remove(joureur);
+        joureursBack.addAll(joueurs);
+        for (Joueur joueur : joueurs) {
+            tableViewRight.getItems().remove(joueur);
         }
 
         tableViewLeft.setItems(joureursBack);

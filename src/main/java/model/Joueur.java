@@ -1,15 +1,15 @@
 package model;
 
-public class Joureur {
+public class Joueur {
 
     private String id;
     private String firstName;
     private String lastName;
     private Double score;
 
-    public Joureur(){};
+    public Joueur(){};
 
-    public Joureur(String id, String firstName, String lastName, Double score) {
+    public Joueur(String id, String firstName, String lastName, Double score) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

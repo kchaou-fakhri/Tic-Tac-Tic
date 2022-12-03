@@ -1,12 +1,11 @@
 package DAOJoueur;
 
 import IDAO.IDAO;
-import model.Joureur;
+import model.Joueur;
 import model.UtilitairesBD;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -14,18 +13,20 @@ public class JoueurDAO implements IDAO {
 
     Connection cn;
     public JoueurDAO(){
-        UtilitairesBD.seConnecter("src\\main\\java\\model\\DBParameters");    }
+       cn = UtilitairesBD.seConnecter("src\\main\\java\\model\\DBParameters");
+        
+    }
 
     @Override
     public Boolean insert(Object joureur) {
         boolean verify = false;
-        Joureur _joureur = ((Joureur) joureur);
+        Joueur _joueur = ((Joueur) joureur);
         try {
 
-            String UpdateSQL = "insert into Joueur values ('"+_joureur.getId()+"','"
-                    +_joureur.getFirstName()+"','"
-                    +_joureur.getLastName()+"','"
-                    +_joureur.getScore()+"')";
+            String UpdateSQL = "insert into Joueur values ('"+ _joueur.getId()+"','"
+                    + _joueur.getFirstName()+"','"
+                    + _joueur.getLastName()+"','"
+                    + _joueur.getScore()+"')";
 
 
             Statement s = cn.createStatement();
@@ -40,19 +41,19 @@ public class JoueurDAO implements IDAO {
     }
 
     @Override
-    public Joureur getById(Object id) {
+    public Joueur getById(Object id) {
 
-        Joureur joureur = new Joureur();
+        Joueur joueur = new Joueur();
         try{
             ResultSet resultSet = UtilitairesBD.OuvrirReq("SELECT * FROM Joueur where id = '"+id+"'");
 
             if (resultSet != null){
                 resultSet.next();
 
-                joureur.setId(resultSet.getString(1));
-                joureur.setFirstName(resultSet.getString(2));
-                joureur.setLastName(resultSet.getString(3));
-                joureur.setScore(resultSet.getDouble(4));
+                joueur.setId(resultSet.getString(1));
+                joueur.setFirstName(resultSet.getString(2));
+                joueur.setLastName(resultSet.getString(3));
+                joueur.setScore(resultSet.getDouble(4));
 
             }
 
@@ -60,26 +61,26 @@ public class JoueurDAO implements IDAO {
             e.printStackTrace();
 
         }
-        return joureur;
+        return joueur;
     }
 
     @Override
     public ArrayList getAll() {
-        ArrayList<Joureur> joureurArrayList = new ArrayList<>();
-        Joureur joureur;
+        ArrayList<Joueur> joueurArrayList = new ArrayList<>();
+        Joueur joueur;
         try {
             Statement statement = cn.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM Joueur");
 
             if (resultSet != null){
                 while (resultSet.next()){
-                    joureur = new Joureur();
-                    joureur.setId(resultSet.getString(1));
-                    joureur.setFirstName(resultSet.getString(2));
-                    joureur.setLastName(resultSet.getString(3));
-                    joureur.setScore(resultSet.getDouble(4));
+                    joueur = new Joueur();
+                    joueur.setId(resultSet.getString(1));
+                    joueur.setFirstName(resultSet.getString(2));
+                    joueur.setLastName(resultSet.getString(3));
+                    joueur.setScore(resultSet.getDouble(4));
 
-                    joureurArrayList.add(joureur);
+                    joueurArrayList.add(joueur);
                 }
             }
 
@@ -89,6 +90,6 @@ public class JoueurDAO implements IDAO {
         }
 
 
-        return joureurArrayList;
+        return joueurArrayList;
     }
 }
