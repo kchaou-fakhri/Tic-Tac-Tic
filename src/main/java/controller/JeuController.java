@@ -2,7 +2,6 @@ package controller;
 
 import DAOJoueur.JoueurDAO;
 
-import com.google.gson.Gson;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -16,13 +15,19 @@ import model.Partie;
 import model.Position;
 import view.JeuUI;
 import view.ListJoueurDetail;
+import view.ListPartieFormLocal;
 import view.ListeJoureursUI;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.StringTokenizer;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class JeuController {
 
@@ -33,6 +38,8 @@ public class JeuController {
     private Partie partie;
 
     private Joueur joueur_1, joueur_2;
+
+    private ListPartieFormLocal listPartieFormLocal;
 
 
 
@@ -63,6 +70,8 @@ public class JeuController {
         listeJoureursUI = new ListeJoureursUI();
         createMenu();
         listJoueurDetail = new ListJoueurDetail();
+
+        listPartieFormLocal = new ListPartieFormLocal();
 
 //        joueurDAO.insert(new Joueur("001","Ahmed","Kchaou",9.5));
 //        joueurDAO.insert(new Joueur("002","Fakhri","Kchaou",5.5));
@@ -138,6 +147,7 @@ public class JeuController {
             setListnerofGames();
 
             partie = new Partie(joueur_1, joueur_2);
+            partie.setId(randomStringR().toString());
         });
 
         listeJoueurMenuItem.setOnAction(e->{
@@ -171,18 +181,73 @@ public class JeuController {
 
         quitterMenuItem.setOnAction(e->{
 
-            Gson gson = new Gson();
             try {
-               var tt=  gson.toJson(partie);
-                gson.toJson(123.45, new FileWriter("src\\main\\partie.json"));
+                save("data/"+partie.getNomCourant(),"/fileJoueur_1.txt", partie.getLisCoupJ());
 
-                gson.toJson(1556, new FileWriter("partie.json"));
-            } catch (IOException ex) {
+            } catch (FileNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
         });
+
+        listePartiesMenuItem.setOnAction(e->{
+            borderPane.setCenter(null);
+            borderPane.setLeft(null);
+            borderPane.setRight(null);
+            ArrayList<String> dirs = new ArrayList<>();
+            try (Stream<Path> paths = Files.walk(Paths.get("data/"))) {
+                paths.forEach(filePath -> {
+                    if (Files.isRegularFile(filePath)) {
+                      dirs.add(String.valueOf(filePath));
+                    }
+                });
+
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            borderPane.setCenter(listPartieFormLocal.getListJoueur(dirs));
+            setListnerOfListPartieFromLocal();
+//            //   borderPane.setBottom(listJoueurDetail.getDeleteJoueur());
+//            BorderPane.setMargin(borderPane.getLeft(), insets);
+        });
     }
 
+
+
+    private StringBuilder randomStringR() {
+
+        // create a string of uppercase and lowercase characters and numbers
+        String upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
+        String numbers = "0123456789";
+
+        // combine all strings
+        String alphaNumeric = upperAlphabet + lowerAlphabet + numbers;
+
+        // create random string builder
+        StringBuilder sb = new StringBuilder();
+
+        // create an object of Random class
+        Random random = new Random();
+
+        // specify length of random string
+        int length = 10;
+
+        for(int i = 0; i < length; i++) {
+
+            // generate random index number
+            int index = random.nextInt(alphaNumeric.length());
+
+            // get character specified by index
+            // from the string
+            char randomChar = alphaNumeric.charAt(index);
+
+            // append the character to string builder
+            sb.append(randomChar);
+        }
+
+        return sb;
+
+    }
 
 
     public Parent getBorderPane() {
@@ -291,6 +356,15 @@ public class JeuController {
                 iBox.setHeaderText("PARTIE FINIE");
                 iBox.setContentText("Le joueur " + this.partie.getNomCourant() + " est le gagant ");
                 iBox.showAndWait();
+                try {
+                    save("data/"+partie.getId(),"/fileJoueur_1.txt", partie.getLisCoupJ());
+
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+
+
                 if (this.partie.getRolejoueur() == Integer.parseInt(this.joueur_1.getId())) {
                     this.joueur_1.incrementerScore();
                     this.joueur_2.decrementerScore();
@@ -320,6 +394,91 @@ public class JeuController {
         }
     }
 
+    public void save(String fileName, String nomCourant, ArrayList<Coup> lisCoupJ) throws FileNotFoundException {
+        File theDir = new File(fileName);
+
+            theDir.mkdirs();
+
+
+
+        PrintWriter pw = new PrintWriter(new FileOutputStream(fileName+nomCourant));
+        pw.println("joueru_1");
+        pw.println(partie.getJ1().getId());
+        pw.println(partie.getJ1().getFirstName());
+        pw.println(partie.getJ1().getLastName());
+        pw.println(partie.getJ1().getScore());
+
+
+        pw.println("joueru_2");
+        pw.println(partie.getJ2().getId());
+        pw.println(partie.getJ2().getFirstName());
+        pw.println(partie.getJ2().getLastName());
+        pw.println(partie.getJ2().getScore());
+
+
+
+        pw.println("###");
+
+        for (Coup coup : lisCoupJ)
+            pw.println(coup);
+        pw.close();
+    }
+
+
+    private void setListnerOfListPartieFromLocal() {
+
+        listPartieFormLocal.getTableViewListPartie().getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+
+            String partie = (String) listPartieFormLocal.getTableViewListPartie().getSelectionModel().getSelectedItem();
+            if (partie != null){
+
+//                try {
+//                    FileReader fileReader = new FileReader(partie);
+//                    int caractere;
+//                    while (fileReader.ready()){
+//                        caractere = fileReader.read();
+//
+//
+//                        System.out.print((char) caractere);
+//                    }
+//
+//
+//                    fileReader.close();
+//
+//                } catch (FileNotFoundException e) {
+//                    throw new RuntimeException(e);
+//                } catch (IOException e) {
+//                    throw new RuntimeException(e);
+//                }
+
+
+
+                BufferedReader reader;
+
+                try {
+                    reader = new BufferedReader(new FileReader(partie));
+                    String line = reader.readLine();
+
+                    while (line != null) {
+                        System.out.println(line);
+
+                        if (!line.equals("joueru_1") || !line.equals("joueru_2")){
+
+                        }
+                        // read next line
+                        line = reader.readLine();
+                    }
+
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+
+        });
+    }
 
 
 }

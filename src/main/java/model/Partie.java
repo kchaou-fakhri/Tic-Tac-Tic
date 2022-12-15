@@ -1,12 +1,26 @@
 package model;
 
 import DAOJoueur.JoueurDAO;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Partie {
+public class Partie implements Serializable {
     private Joueur j1, j2;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String id;
+
+
     private ArrayList<Coup> lisCoupJ = new ArrayList();
     private int nbPionJ1 = 21;
     private int nbPionJ2 = 21;
@@ -68,10 +82,10 @@ public class Partie {
 
 	public void insertCoup(Coup coup) {
 		if (this.rolejoueur == Integer.parseInt(this.j1.getId())) {
-			this.lisCoupJ1.add(coup);
+			this.lisCoupJ.add(coup);
 			nbPionJ1--;
 		} else {
-			this.lisCoupJ2.add(coup);
+			this.lisCoupJ.add(coup);
 			nbPionJ1--;
 		}
 	}
@@ -154,4 +168,25 @@ public class Partie {
     public boolean estRemplie() {
         return this.puissance.estRemplie();
     }
+
+
+    public ArrayList<Coup> getLisCoupJ() {
+        return lisCoupJ;
+    }
+
+    public void setLisCoupJ1(ArrayList<Coup> lisCoupJ1) {
+        this.lisCoupJ1 = lisCoupJ1;
+    }
+
+    public ArrayList<Coup> getLisCoupJ2() {
+        return lisCoupJ2;
+    }
+
+    public void setLisCoupJ2(ArrayList<Coup> lisCoupJ2) {
+        this.lisCoupJ2 = lisCoupJ2;
+    }
+
+
+
+
 }
