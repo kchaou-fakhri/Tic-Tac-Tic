@@ -14,6 +14,10 @@ module com.example.tp7_mvc {
     exports model;
     opens model to javafx.fxml;
 
+    requires gson ;
+
+
+
 
 //    opens com.example.tp7_mvc to javafx.fxml;
 //    exports com.example.tp7_mvc;

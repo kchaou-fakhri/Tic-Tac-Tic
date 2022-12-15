@@ -48,4 +48,12 @@ public class Joueur {
     public void setScore(Double score) {
         this.score = score;
     }
+
+
+    public void incrementerScore() {
+        this.score++;
+    }
+    public void decrementerScore() {
+        this.score--;
+    }
 }

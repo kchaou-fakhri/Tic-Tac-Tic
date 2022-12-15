@@ -53,6 +53,13 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+            <!-- lib to create and read json file -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.5</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -75,7 +82,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.example.tp7_mvc/com.example.tp7_mvc.HelloApplication</mainClass>
+                            <mainClass>app.Application</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
